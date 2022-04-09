@@ -9,8 +9,10 @@ from utils.file_utils import update_file_with_date
 
 
 folder = "D:/3-Photos/Albums"
+
 albums = [get_leaf_image_folder_paths(os.path.join(folder, name)) for name in os.listdir(folder) if os.path.isdir(os.path.join(folder, name))]
-albums = [[os.path.join(folder, "Shimla Manali with Fam")]]
+# albums = [[os.path.join(folder, "Shimla Manali with Fam")]]
+
 folders = []
 for album in albums:
     folders.extend(album)
