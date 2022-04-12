@@ -47,7 +47,7 @@ def merge_iterables(iter1, iter2):
     return final_list
 
 
-def is_json_key_present(json:dict, key:str) -> bool:
+def is_json_key_present(json:dict, key) -> bool:
     # TODO: Add in common_utils PyPi
     try:
         json[key]
