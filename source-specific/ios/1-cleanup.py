@@ -3,7 +3,7 @@
 
 
 import os
-from utils.common_utils import get_leaf_image_folder_paths, get_date_range, is_json_key_present
+from utils.common_utils import get_leaf_image_folder_paths
 
 
 ios_folder = "E:/Ext disk/1-Phone/iPhone/DCIM"
