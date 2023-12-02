@@ -8,9 +8,15 @@ from utils.common_utils import get_leaf_image_folder_paths
 from utils.file_utils import update_file_with_date
 
 folder = "G:/3-Photos/Albums/"
+# folder = "E:/organize photos/test/"
 
 albums = [get_leaf_image_folder_paths(os.path.join(folder, name)) for name in os.listdir(folder) if os.path.isdir(os.path.join(folder, name))]
 # albums = [[os.path.join(folder, "Insti Aditya 40k ka convo 2022")]]
+
+
+MAX_VIDEO_SIZE = 30 * 1024 * 1024
+
+
 
 folders = []
 for album in albums:
@@ -28,6 +34,19 @@ def fix_meta_tags(file_path:str):
         return
 
     item_pathlib = Path(file_path)
+    item = item_pathlib.name.lower()
+
+    if "Snapchat" in item:
+        return
+
+    if "aae" in item:
+        print("Skipping aae file", file_path)
+        return
+
+    # If size of item > max size, skip
+    if item_pathlib.stat().st_size > MAX_VIDEO_SIZE:
+        print("Video size is very big", file_path, item_pathlib.stat().st_size/1024/1024, "MB")
+        return None
 
     # Check modified/created/exif dates and get the earliest
     dates = []
@@ -41,13 +60,12 @@ def fix_meta_tags(file_path:str):
     if exif_date is not None:
         dates.append(exif_date)
 
-    item = item_pathlib.name
     file_date = None
-    if "Snapchat" not in item:
-        # Not a snapchat file (false positive dates)
-        file_date = parse_date_from_file_name(file_path)
-        if file_date is not None:
-            dates.append(file_date)
+
+    # Not a snapchat file (false positive dates)
+    file_date = parse_date_from_file_name(file_path)
+    if file_date is not None:
+        dates.append(file_date)
 
     min_date = min(dates)
     max_date = max(dates)
