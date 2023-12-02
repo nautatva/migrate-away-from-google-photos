@@ -16,8 +16,8 @@ def update_file_with_date(file_path:str, date:datetime):
 
     print("Doing", file_path, date)
 
-    if is_image(file_path):
-        update_exif_photo_taken_date(file_path, date)
+    # if is_image(file_path):
+    #     update_exif_photo_taken_date(file_path, date)
     filedate.File(file_path).set(
         created=date,
         modified=date

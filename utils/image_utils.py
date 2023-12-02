@@ -5,15 +5,17 @@ import traceback
 
 
 # IMAGE_EXTENSIONS = ["jpg", "png", "jpeg"]
-IMAGE_EXTENSIONS = [".jpg", ".png", ".jpeg"]
+IMAGE_EXTENSIONS = [".jpg", ".png", ".jpeg", ".heic", ".heif"]
 
 
 def update_exif_photo_taken_date(filepath:str, date:datetime):
+    # NOTE: Do not use this function, it will update exif dates, which is generally correct for images
+    # NOTE: This function is not working for HEIC and HEIF files
     print("Updating exif", filepath, date)
     try:
         exif_dict = piexif.load(filepath)
-    except Exception:
-        print("Failed to get exif, possible PNG", filepath)
+    except Exception as e:
+        print("Failed to get exif, possible PNG", filepath, e)
         return
     new_date = date.strftime("%Y:%m:%d %H:%M:%S")
     exif_dict['0th'][piexif.ImageIFD.DateTime] = new_date
