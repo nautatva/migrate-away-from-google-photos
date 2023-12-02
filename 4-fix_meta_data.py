@@ -8,10 +8,10 @@ from utils.common_utils import get_leaf_image_folder_paths
 from utils.file_utils import update_file_with_date
 
 
-folder = "D:/3-Photos/Albums"
+folder = "G:/3-Photos/Albums/"
 
 albums = [get_leaf_image_folder_paths(os.path.join(folder, name)) for name in os.listdir(folder) if os.path.isdir(os.path.join(folder, name))]
-# albums = [[os.path.join(folder, "Shimla Manali with Fam")]]
+# albums = [[os.path.join(folder, "Insti Aditya 40k ka convo 2022")]]
 
 folders = []
 for album in albums:
@@ -57,13 +57,15 @@ def fix_meta_tags(file_path:str):
         # No need to set anything
         return
     elif number_of_days > 0:
+        print("Dates are inconsistent", file_path, min_date, max_date, "All dates", dates)
         if file_date is not None:
             # Actually found the date, best scenario
+            print("Found date in file name itself", file_path, file_date)
             update_file_with_date(file_path, file_date)
             return
 
         # Modified date is ahead of created date
-        print("Using dates", file_path, created, modified, exif_date)
+        print("Old dates", file_path, created, modified, exif_date)
         update_file_with_date(file_path, min_date)
 
 
