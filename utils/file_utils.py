@@ -26,7 +26,7 @@ def update_file_with_date(file_path:str, date:datetime):
         modified=date
     )
 
-def get_most_accurate_creation_date_from_file(file_path:str) -> datetime:  
+def get_most_accurate_creation_date_from_file(file_path:str, quick=False, super_quick=False) -> datetime:  
     # First check if file name has date
     dates = []
 
@@ -34,7 +34,19 @@ def get_most_accurate_creation_date_from_file(file_path:str) -> datetime:
     if file_date is not None:
         # Best case
         dates.append(file_date)
-    else:
+    
+    run_exif = True
+    # Always run extract exif if both quick and super quick are false
+    # If quick is true, run only if file_date is None
+    if quick is True and file_date is not None:
+        run_exif = False
+
+    # If super quick is true, never run
+    if super_quick is True:
+        run_exif = False
+
+
+    if run_exif is True:
         # This quickly becomes heavy
         # Only computing exif date if date not found in file name
         exif_date = extract_exif_date_taken(file_path)
