@@ -8,6 +8,7 @@ from pathlib import Path
 
 def update_file_with_date(file_path:str, date:datetime):
     if date is None:
+        # print("date is None", file_path)
         return
     if date < datetime(2002,1,1):
         print("date too old, check manually", file_path)
@@ -17,7 +18,7 @@ def update_file_with_date(file_path:str, date:datetime):
         print("date in future not possible", file_path)
         return
 
-    print("Doing", file_path, date)
+    # print("Doing", file_path, date)
 
     # if is_image(file_path):
     #     update_exif_photo_taken_date(file_path, date)
@@ -38,6 +39,7 @@ def get_most_accurate_creation_date_from_file(file_path:str, quick=False, super_
     file_date = None
     if ultra_quick is False:
         file_date = parse_date_from_file_name(file_path)
+        # print("file_date", file_date)
         if file_date is not None:
             # Best case
             dates.append(file_date)

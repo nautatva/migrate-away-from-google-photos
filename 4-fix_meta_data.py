@@ -9,8 +9,8 @@ from utils.file_utils import get_most_accurate_creation_date_from_file
 folder = "G:/3-Photos/Albums/"
 # folder = "E:/organize photos/test/"
 
-albums = [get_leaf_image_folder_paths(os.path.join(folder, name)) for name in os.listdir(folder) if os.path.isdir(os.path.join(folder, name))]
-# albums = [[os.path.join(folder, "Insti Aditya 40k ka convo 2022")]]
+# albums = [get_leaf_image_folder_paths(os.path.join(folder, name)) for name in os.listdir(folder) if os.path.isdir(os.path.join(folder, name))]
+albums = [[os.path.join(folder, "Trek - Matheran to peb(Vikatgad) fort FM intern")]]
 
 
 MAX_VIDEO_SIZE = 101 * 1024 * 1024
@@ -35,7 +35,7 @@ def fix_meta_tags(file_path:str):
     item_pathlib = Path(file_path)
     item = item_pathlib.name.lower()
 
-    if "Snapchat" in item:
+    if "snapchat" in item:
         return
 
     if "aae" in item:
@@ -50,8 +50,7 @@ def fix_meta_tags(file_path:str):
         return None
 
     min_date, change_required = get_most_accurate_creation_date_from_file(file_path, quick=True)
-
-    if change_required > 0:
+    if change_required:
         update_file_with_date(file_path, min_date)
 
 
