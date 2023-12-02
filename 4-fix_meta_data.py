@@ -7,7 +7,6 @@ from parsers.exif_parser import extract_exif_date_taken
 from utils.common_utils import get_leaf_image_folder_paths
 from utils.file_utils import update_file_with_date
 
-
 folder = "G:/3-Photos/Albums/"
 
 albums = [get_leaf_image_folder_paths(os.path.join(folder, name)) for name in os.listdir(folder) if os.path.isdir(os.path.join(folder, name))]
@@ -58,15 +57,16 @@ def fix_meta_tags(file_path:str):
         return
     elif number_of_days > 0:
         print("Dates are inconsistent", file_path, min_date, max_date, "All dates", dates)
+        required_date = min_date
         if file_date is not None:
             # Actually found the date, best scenario
             print("Found date in file name itself", file_path, file_date)
-            update_file_with_date(file_path, file_date)
-            return
+            required_date = file_date
+        else:
+            # Modified date is ahead of created date
+            print("Old dates", file_path, created, modified, exif_date)
 
-        # Modified date is ahead of created date
-        print("Old dates", file_path, created, modified, exif_date)
-        update_file_with_date(file_path, min_date)
+        update_file_with_date(file_path, required_date)
 
 
 for folder in folders:

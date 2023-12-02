@@ -7,7 +7,8 @@ from get_calendar_for_albums import get_calendar
 
 
 album_folder = "G:/3-Photos/Albums"
-albums = [name for name in os.listdir(album_folder) if os.path.isdir(os.path.join(album_folder, name))]
+albums = get_leaf_image_folder_paths(album_folder)
+# albums = [name for name in os.listdir(album_folder) if os.path.isdir(os.path.join(album_folder, name))]
 # albums = ["Palghar"]
 rogue_folder = "D:/3-Photos/photos year sorted"
 
@@ -67,6 +68,7 @@ for folder in rogue_folders:
                 fit_folder = os.path.join(rogue_folder, "best_fit", album)
             else:
                 fit_folder = os.path.join(album_folder, album, "best_fit3")
+
             if not os.path.exists(fit_folder):
                 os.makedirs(fit_folder)
             new_photo_path = os.path.join(fit_folder, item)
@@ -74,3 +76,4 @@ for folder in rogue_folders:
                 print(new_photo_path, "already exists")
             else:
                 os.rename(file_path, new_photo_path)
+            # todo: Also move all relevant NAME (xx).AAE files
