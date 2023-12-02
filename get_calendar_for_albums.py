@@ -60,20 +60,12 @@ def get_calendar(albums: list):
             if ext in [".aae"]:
                 continue
 
-            m_date, change_required = get_most_accurate_creation_date_from_file(file_path)
-            media_dates.append(m_date)
+            m_date, change_required = get_most_accurate_creation_date_from_file(file_path, super_quick=True)
+            media_dates.append(m_date.date())
             # media_dates.append(pathlib.Path(file_path).stat().st_ctime)
 
         if len(media_dates) == 0:
             continue
-
-        # Get set of dates
-        # Check if dates are continuous
-        if not check_continuous_dates(media_dates):
-            print("Dates are not continuous for album", album)
-            skipped_date_albums[album] = sorted(set(media_dates))
-            continue
-        
 
         df = DataFrame({'DATE': [Timestamp(x) for x in media_dates]})
         # print(df)
@@ -85,13 +77,18 @@ def get_calendar(albums: list):
 
         dates = get_date_range(qa, qb)
         print("Done album", album, "with dates starting", qa, "and ending", qb)
-        print()
+
+        media_dates_set = sorted(set(media_dates))
+        df = DataFrame({'DATE': [Timestamp(x) for x in media_dates_set]})
+        if not check_continuous_dates(media_dates_set):
+            print("Dates are not continuous for album", album)
+            skipped_date_albums[album] = df
+
         if len(dates) > 15:
             print(album, "len greater than 15")
-            print(df)
-            long_albums[album] = sorted(set(media_dates))
+            long_albums[album] = df
             continue
-        
+
         print(album, "Added to calendar")
         calendar[album] = dates
         # print (s)
@@ -124,15 +121,20 @@ for e in calendar:
         date_album[date] = als
 
 
+def print_dict(d: dict):
+    d_sorted = {k: v for k, v in sorted(list(d.items()))}
+    for k, v in d_sorted.items():
+        print(k, v)
+
 # Print the date_album map with asc dates
 # One date in one line
-print("############################# CALENDAR ITERNARY PRINTED BELOW #############################")
-date_album_sorted = {k: v for k, v in sorted(list(date_album.items()))}
-for date in date_album_sorted:
-    print(date, date_album_sorted[date])
+print()
 
 print("############################# ALBUMS WHICH TOO LONG TO BE INCLUDED IN THE CALENDAR #############################")
-print(long_albums)
+print_dict(long_albums)
 
 print("############################# ALBUMS WHICH HAVE DATES SKIPPED IN BETWEEN #############################")
-print(skipped_date_albums)
+print_dict(skipped_date_albums)
+
+print("############################# CALENDAR ITERNARY PRINTED BELOW #############################")
+print_dict(date_album)

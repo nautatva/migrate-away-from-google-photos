@@ -49,7 +49,7 @@ def fix_meta_tags(file_path:str):
         print("Video size is very big", file_path, item_pathlib.stat().st_size/1024/1024, "MB")
         return None
 
-    min_date, change_required = get_most_accurate_creation_date_from_file(file_path)
+    min_date, change_required = get_most_accurate_creation_date_from_file(file_path, quick=True)
 
     if change_required > 0:
         update_file_with_date(file_path, min_date)
