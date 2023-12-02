@@ -22,7 +22,7 @@ def get_date_range(start_date:date, end_date:date):
         return [start_date.date()]
 
     date_list = []
-    for day in range(number_of_days):
+    for day in range(number_of_days+1):
         a_date = (start_date + timedelta(days=day))
         # .astimezone(timezone.utc)
         # a_date = a_date.strftime('$d-%m-%Y')

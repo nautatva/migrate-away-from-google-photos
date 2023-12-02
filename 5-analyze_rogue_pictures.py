@@ -18,7 +18,7 @@ rogue_albums = [get_leaf_image_folder_paths(os.path.join(rogue_folder, name)) fo
 SAME_DIRECTORY_STRUCUTRE = True
 
 
-calendar = get_calendar(albums)
+calendar, skipped_date_albums, long_albums = get_calendar(albums)
 
 # Map dates to albums
 date_desc = {}
