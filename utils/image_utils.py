@@ -9,7 +9,7 @@ IMAGE_EXTENSIONS = [".jpg", ".png", ".jpeg"]
 
 
 def update_exif_photo_taken_date(filepath:str, date:datetime):
-    # print("Updating exif", filepath, date)
+    print("Updating exif", filepath, date)
     try:
         exif_dict = piexif.load(filepath)
     except Exception:

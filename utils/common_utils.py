@@ -4,6 +4,8 @@ import json
 
 
 def get_leaf_image_folder_paths(file_path:str) -> set:
+    # Lists all leaf folders that contain images
+    # Recursively searches for folders
     all_paths = []
     if os.path.isdir(file_path):
         all_paths.append(file_path)
